@@ -1,10 +1,10 @@
 public class LinkedListDeque<T> {
-    private class Node{
+    private class Node {
         public Node prev;
         public T item;
         public Node next;
 
-        public Node(Node e, T i, Node h){
+        public Node(Node e, T i, Node h) {
             prev = e;
             item = i;
             next = h;
@@ -14,115 +14,104 @@ public class LinkedListDeque<T> {
     private Node sentinel;
     private int size;
 
-    /** Creates an empty list. */
-    public LinkedListDeque(){
+    /**
+     * Creates an empty list.
+     */
+    public LinkedListDeque() {
         size = 0;
         sentinel = new Node(null, null, null);
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
     }
 
-    public LinkedListDeque(T x){
+    public LinkedListDeque(T x) {
         size = 1;
         sentinel = new Node(null, null, null);
         sentinel.next = new Node(sentinel, x, sentinel);
         sentinel.prev = sentinel.next;
     }
 
-    public void addFirst(T item){
-        size ++;
+    public void addFirst(T item) {
+        size++;
         Node oldFrontNode = sentinel.next;
         Node newNode = new Node(sentinel, item, oldFrontNode);
         sentinel.next = newNode;
         oldFrontNode.prev = newNode;
     }
 
-    public void addLast(T item){
-        size ++;
+    public void addLast(T item) {
+        size++;
         Node oldLastNode = sentinel.prev;
         Node newLastNode = new Node(oldLastNode, item, sentinel);
         sentinel.prev = newLastNode;
         oldLastNode.next = newLastNode;
     }
 
-    public boolean isEmpty(){
-        if (size == 0){
+    public boolean isEmpty() {
+        if (size == 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    public int size(){
+    public int size() {
         return size;
     }
 
-    public void printDeque(){
+    public void printDeque() {
         Node current = sentinel.next;
-        while (current != sentinel){
+        while (current != sentinel) {
             System.out.print(current.item + " ");
             current = current.next;
         }
     }
 
-    public T removeFirst(){
-        if (size == 0){
+    public T removeFirst() {
+        if (size == 0) {
             return null;
         }
 
-        size --;
+        size--;
         T originFirst = sentinel.next.item;
         sentinel.next = sentinel.next.next;
         sentinel.next.prev = sentinel;
         return originFirst;
     }
 
-    public T removeLast(){
-        if (size == 0){
+    public T removeLast() {
+        if (size == 0) {
             return null;
         }
 
-        size --;
+        size--;
         T originLast = sentinel.prev.item;
         sentinel.prev = sentinel.prev.prev;
         sentinel.prev.next = sentinel;
         return originLast;
     }
 
-    public T get(int index){
+    public T get(int index) {
         Node current = sentinel.next;
-        if (index == 0){
+        if (index == 0) {
             return current.item;
         }
-        for (int i = 0; i < index; i++){
+        for (int i = 0; i < index; i++) {
             current = current.next;
         }
         return current.item;
     }
 
-    public T getRecursive(int index){
+    public T getRecursive(int index) {
         return getRecursiveHelp(sentinel.next, index);
     }
 
-    private T getRecursiveHelp(Node current, int index){
-        if (index == 0){
+    private T getRecursiveHelp(Node current, int index) {
+        if (index == 0) {
             return current.item;
-        }else {
+        } else {
             current = current.next;
             return getRecursiveHelp(current, index - 1);
         }
-    }
-
-    public static void main(String[] args){
-        LinkedListDeque<Integer> L = new LinkedListDeque<>();
-        L.addFirst(2);
-        L.addLast(3);
-        L.removeFirst();
-        L.removeLast();
-
-        System.out.println("The deque is empty. : " + L.isEmpty());
-        System.out.println("The deque size is: " + L.size());
-        System.out.println("The index 0 item is: " + L.getRecursive(0));
-        L.printDeque();
     }
 }
